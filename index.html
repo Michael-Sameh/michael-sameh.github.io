@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Full-Stack .NET Developer — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0D0F14;
+    --surface: #12151C;
+    --surface-2: #171B24;
+    --border: #262B38;
+    --border-strong: #333949;
+    --text: #EDEEF3;
+    --text-muted: #8991A6;
+    --text-dim: #5D6478;
+    --accent: #5C74FF;
+    --accent-soft: rgba(92,116,255,0.12);
+    --accent-text: #B9C3FF;
+    --status: #4ADE80;
+    --radius: 6px;
+    --maxw: 1120px;
+  }
+
+  html[data-theme="light"] {
+    --bg: #F6F5F2;
+    --surface: #FFFFFF;
+    --surface-2: #F0EFEA;
+    --border: #E1DFD8;
+    --border-strong: #CBC9BF;
+    --text: #14161C;
+    --text-muted: #5A5F70;
+    --text-dim: #8B8F9E;
+    --accent: #4152E0;
+    --accent-soft: rgba(65,82,224,0.09);
+    --accent-text: #3140C4;
+    --status: #16A34A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  img { max-width: 100%; display: block; }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 0 20px; }
+  }
+
+  /* Nav */
+  header.nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 640px) {
+    .nav-inner { padding: 16px 20px; }
+  }
+
+  .logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.95rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    padding: 4px 9px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+
+  .nav-cta {
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 8px 16px;
+    font-size: 0.88rem;
+    white-space: nowrap;
+  }
+  .nav-cta:hover { border-color: var(--accent); color: var(--accent-text); }
+
+  .theme-toggle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text);
+    flex-shrink: 0;
+  }
+  .theme-toggle svg { width: 16px; height: 16px; }
+
+  .menu-btn {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+  }
+  .menu-btn span { width: 20px; height: 2px; background: var(--text); display: block; }
+
+  @media (max-width: 800px) {
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .menu-btn { display: flex; }
+  }
+
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    border-top: 1px solid var(--border);
+    padding: 16px 20px 20px;
+    gap: 14px;
+    font-size: 0.95rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { color: var(--text-muted); }
+
+  /* Hero */
+  .hero {
+    padding: 88px 0 60px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  @media (max-width: 800px) {
+    .hero { grid-template-columns: 1fr; padding: 56px 0 40px; gap: 40px; }
+  }
+
+  .kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent-text);
+    margin-bottom: 18px;
+    display: inline-block;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.3rem, 4.6vw, 3.6rem);
+    line-height: 1.12;
+    max-width: 15ch;
+  }
+
+  .hero p.sub {
+    margin-top: 20px;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 46ch;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    margin-top: 34px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 22px;
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: color-mix(in srgb, var(--accent) 85%, black); }
+
+  .btn-secondary { border: 1px solid var(--border-strong); color: var(--text); background: transparent; }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent-text); }
+
+  .hero-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    padding: 20px;
+  }
+
+  .hero-photo {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    filter: grayscale(15%);
+  }
+
+  .hero-meta { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .meta-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .meta-label { color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; }
+  .meta-value { color: var(--text); text-align: right; }
+
+  .status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--status);
+    margin-right: 7px;
+  }
+
+  /* Diagram strip */
+  .diagram-strip {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 42px 0;
+    overflow-x: auto;
+  }
+
+  .diagram-strip svg { display: block; margin: 0 auto; width: 100%; max-width: 720px; height: auto; }
+
+  .diagram-line {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: draw 1.4s ease forwards 0.3s;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  .node-label { font-family: 'IBM Plex Mono', monospace; font-size: 12px; fill: var(--text-muted); }
+  .node-box { fill: var(--surface); stroke: var(--border-strong); }
+  .node-dot { fill: var(--accent); }
+
+  /* Sections */
+  section { padding: 96px 0; }
+  @media (max-width: 640px) { section { padding: 64px 0; } }
+
+  .section-head { margin-bottom: 44px; max-width: 60ch; }
+  .section-head h2 { font-size: clamp(1.6rem, 3vw, 2.15rem); }
+  .section-head p { color: var(--text-muted); margin-top: 10px; font-size: 1rem; }
+
+  /* About */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 56px;
+  }
+  @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+  .about-grid p { color: var(--text-muted); font-size: 1.02rem; margin-bottom: 16px; }
+
+  .focus-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .focus-item { padding: 18px 20px; border-bottom: 1px solid var(--border); }
+  .focus-item:last-child { border-bottom: none; }
+  .focus-item h3 { font-size: 0.98rem; margin-bottom: 6px; }
+  .focus-item p { color: var(--text-muted); font-size: 0.9rem; margin: 0; }
+
+  /* Education */
+  .edu-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 24px;
+  }
+  @media (max-width: 640px) { .edu-row { grid-template-columns: 1fr; gap: 8px; } }
+  .edu-period { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--text-dim); }
+  .edu-row h3 { font-size: 1.05rem; margin-bottom: 4px; }
+  .edu-row p { color: var(--text-muted); font-size: 0.92rem; }
+
+  /* Skills */
+  .skills-cat { margin-bottom: 30px; }
+  .skills-cat:last-child { margin-bottom: 0; }
+  .skills-cat h3 { font-size: 0.92rem; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; font-weight: 400; margin-bottom: 14px; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 15px;
+    font-size: 0.9rem;
+    background: var(--surface);
+  }
+
+  /* Projects */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 900px) { .project-grid { grid-template-columns: 1fr; } }
+
+  .project-card {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 26px 22px;
+    background: var(--surface);
+  }
+  .project-card::before, .project-card::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: var(--accent);
+    border-style: solid;
+  }
+  .project-card::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .project-card::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+  .project-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .project-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .project-thumb svg { width: 100%; height: 100%; display: block; }
+  .project-thumb span { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--text-dim); }
+
+  .project-card h3 { font-size: 1.12rem; margin-bottom: 10px; }
+  .project-card p { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 18px; }
+
+  .tech-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
+  .tech-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--text-dim); border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; }
+
+  .project-link { font-size: 0.88rem; color: var(--accent-text); border-bottom: 1px solid transparent; }
+  .project-link:hover { border-bottom-color: var(--accent-text); }
+
+  .next-up {
+    margin-top: 46px;
+    border-top: 1px solid var(--border);
+    padding-top: 30px;
+  }
+  .next-up h3 { font-size: 0.92rem; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; font-weight: 400; margin-bottom: 18px; }
+  .next-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  @media (max-width: 800px) { .next-grid { grid-template-columns: 1fr; } }
+  .next-item h4 { font-size: 0.95rem; font-weight: 500; font-family: 'Space Grotesk', sans-serif; margin-bottom: 5px; }
+  .next-item p { font-size: 0.87rem; color: var(--text-muted); }
+
+  /* Services */
+  .services-list { display: flex; flex-direction: column; }
+  .service-row {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .service-row:first-child { border-top: 1px solid var(--border); }
+  @media (max-width: 700px) { .service-row { grid-template-columns: 1fr; gap: 8px; } }
+  .service-row h3 { font-size: 1.05rem; }
+  .service-row p { color: var(--text-muted); font-size: 0.94rem; max-width: 56ch; }
+
+  /* Contact */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+  @media (max-width: 800px) { .contact-grid { grid-template-columns: 1fr; gap: 36px; } }
+
+  .contact-links { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 15px 18px;
+    font-size: 0.95rem;
+  }
+  .contact-link:hover { border-color: var(--accent); }
+  .contact-link .arrow { color: var(--text-dim); }
+
+  form { display: flex; flex-direction: column; gap: 14px; }
+  label { font-size: 0.82rem; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; margin-bottom: 6px; display: block; }
+  input, textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 110px; }
+
+  button:focus-visible, a:focus-visible, .theme-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 0;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#home" class="logo">MS</a>
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+      </button>
+      <a href="#contact" class="nav-cta">Contact me</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">About</a>
+    <a href="#education">Education</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap" id="home">
+    <div>
+      <span class="kicker">full-stack .net developer</span>
+      <h1>I build reliable web applications for growing businesses.</h1>
+      <p class="sub">I specialize in C#, ASP.NET Core, and SQL Server — turning ideas into fast, dependable software for small businesses and startups that need something they can actually run their operations on.</p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn btn-primary">View my projects</a>
+        <a href="#contact" class="btn btn-secondary">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <img src="profile.jpg" alt="Portrait photo" class="hero-photo" />
+      <div class="hero-meta">
+        <div class="meta-row"><span class="meta-label">name</span><span class="meta-value">Michael Sameh</span></div>
+        <div class="meta-row"><span class="meta-label">role</span><span class="meta-value">Full-Stack .NET Developer</span></div>
+        <div class="meta-row"><span class="meta-label">focus</span><span class="meta-value">Web Apps, APIs, Databases</span></div>
+        <div class="meta-row"><span class="meta-label">clients</span><span class="meta-value">Small businesses &amp; startups</span></div>
+        <div class="meta-row"><span class="meta-label">status</span><span class="meta-value"><span class="status-dot"></span>Open to freelance work</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="diagram-strip">
+    <svg viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg">
+      <line class="diagram-line" x1="90" y1="60" x2="360" y2="60" stroke="var(--border-strong)" stroke-width="1.5"/>
+      <line class="diagram-line" x1="360" y1="60" x2="630" y2="60" stroke="var(--border-strong)" stroke-width="1.5"/>
+      <rect class="node-box" x="20" y="38" width="140" height="44" rx="5" stroke-width="1"/>
+      <text x="90" y="64" text-anchor="middle" class="node-label">Client</text>
+      <rect class="node-box" x="290" y="38" width="140" height="44" rx="5" stroke-width="1"/>
+      <text x="360" y="64" text-anchor="middle" class="node-label">ASP.NET Core</text>
+      <rect class="node-box" x="560" y="38" width="140" height="44" rx="5" stroke-width="1"/>
+      <text x="630" y="64" text-anchor="middle" class="node-label">SQL Server</text>
+      <circle class="node-dot" cx="90" cy="60" r="0"><animate attributeName="r" values="0;3;0" dur="2.4s" repeatCount="indefinite" begin="1.5s"/></circle>
+    </svg>
+  </div>
+
+  <section id="about" class="wrap">
+    <div class="section-head">
+      <h2>About</h2>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p>I'm a full-stack developer focused on the .NET ecosystem — C# and ASP.NET Core on the backend, with SQL Server handling the data layer and HTML, CSS, and JavaScript on the front end. I like working with small businesses and startups because the problems are concrete: a booking system that saves someone real time, an internal tool that replaces a spreadsheet, an API a small team can build on with confidence.</p>
+        <p>My projects so far range from a quiz web application to a movie browsing site, plus a C++ game built with SFML outside the web stack. Each one taught me something different about structuring software that stays easy to maintain as it grows, which is the standard I hold my client work to as well.</p>
+      </div>
+      <div class="focus-list">
+        <div class="focus-item">
+          <h3>Reliability</h3>
+          <p>Built to handle real usage, not just demo conditions.</p>
+        </div>
+        <div class="focus-item">
+          <h3>Clean architecture</h3>
+          <p>Organized, maintainable code from the first commit.</p>
+        </div>
+        <div class="focus-item">
+          <h3>Practical scope</h3>
+          <p>Right-sized solutions instead of overengineering.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" class="wrap">
+    <div class="section-head">
+      <h2>Education</h2>
+    </div>
+    <div class="edu-row">
+      <span class="edu-period">2024 – 2028<br>Expected</span>
+      <div>
+        <h3>Bachelor's in Computer Information Science</h3>
+        <p>Ain Shams University, Faculty of Computer and Information Science — coursework spanning software development, databases, and systems, alongside hands-on project work in the .NET ecosystem.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="wrap">
+    <div class="section-head">
+      <h2>Skills</h2>
+      <p>The languages, frameworks, and tools I build with.</p>
+    </div>
+    <div class="skills-cat">
+      <h3>Languages &amp; frameworks</h3>
+      <div class="chip-row">
+        <span class="chip">C#</span>
+        <span class="chip">ASP.NET Core</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">HTML</span>
+        <span class="chip">CSS</span>
+      </div>
+    </div>
+    <div class="skills-cat">
+      <h3>Data &amp; APIs</h3>
+      <div class="chip-row">
+        <span class="chip">SQL Server</span>
+        <span class="chip">REST APIs</span>
+      </div>
+    </div>
+    <div class="skills-cat">
+      <h3>Tools &amp; workflow</h3>
+      <div class="chip-row">
+        <span class="chip">Git</span>
+        <span class="chip">GitHub</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="wrap">
+    <div class="section-head">
+      <h2>Projects</h2>
+      <p>A few things I've built.</p>
+    </div>
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="project-thumb">
+          <img src="testme.jpg" alt="TestMe quiz app screenshot" />
+        </div>
+        <h3>TestMe</h3>
+        <p>An interactive quiz platform where users answer timed questions across categories and see results instantly. Built front-end only, with vanilla JavaScript handling timing, scoring logic, and a clean, distraction-free interface.</p>
+        <div class="tech-row">
+          <span class="tech-tag">HTML</span>
+          <span class="tech-tag">CSS</span>
+          <span class="tech-tag">JavaScript</span>
+        </div>
+        <a href="https://michael-sameh.github.io/TestMe-project/" class="project-link" target="_blank" rel="noopener">View live site</a>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb">
+          <img src="movieverse.jpg" alt="Movieverse movie browsing site screenshot" />
+        </div>
+        <h3>Movieverse</h3>
+        <p>A browsing site for discovering movies with search and filtering. Built front-end only, focused on clean JavaScript for handling data and keeping page loads fast.</p>
+        <div class="tech-row">
+          <span class="tech-tag">HTML</span>
+          <span class="tech-tag">CSS</span>
+          <span class="tech-tag">JavaScript</span>
+        </div>
+        <a href="https://michael-sameh.github.io/movieverse/" class="project-link" target="_blank" rel="noopener">View live site</a>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb">
+          <img src="crimsonland.jpg" alt="Crimsonland game menu screenshot" />
+        </div>
+        <h3>Crimsonland</h3>
+        <p>A 2D game built with C++ and the SFML graphics library, covering game loops, collision detection, and real-time rendering outside the web stack.</p>
+        <div class="tech-row">
+          <span class="tech-tag">C++</span>
+          <span class="tech-tag">SFML</span>
+        </div>
+        <a href="https://github.com/Michael-Sameh/Crimsonland" class="project-link" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+    </div>
+
+    <div class="next-up">
+      <h3>Next up</h3>
+      <div class="next-grid">
+        <div class="next-item">
+          <h4>Business management system</h4>
+          <p>ASP.NET Core + SQL Server app for managing customers, products, and orders.</p>
+        </div>
+        <div class="next-item">
+          <h4>Online booking system</h4>
+          <p>Full-stack app with authentication, scheduling, and database management.</p>
+        </div>
+        <div class="next-item">
+          <h4>E-commerce API + frontend</h4>
+          <p>ASP.NET Core REST API with SQL Server and a JavaScript frontend.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="wrap">
+    <div class="section-head">
+      <h2>Services</h2>
+      <p>How I can help your team or business.</p>
+    </div>
+    <div class="services-list">
+      <div class="service-row">
+        <h3>Web application development</h3>
+        <p>Custom web apps built with ASP.NET Core and C#, from internal tools to customer-facing platforms.</p>
+      </div>
+      <div class="service-row">
+        <h3>REST API development</h3>
+        <p>Well-structured APIs that your team or other applications can integrate with confidently.</p>
+      </div>
+      <div class="service-row">
+        <h3>Database design</h3>
+        <p>SQL Server schemas and queries built around the way your business actually works.</p>
+      </div>
+      <div class="service-row">
+        <h3>Backend development</h3>
+        <p>Server-side logic, authentication, and integrations that keep your application running reliably.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="wrap">
+    <div class="contact-grid">
+      <div>
+        <h2>Let's work together</h2>
+        <p style="color:var(--text-muted); margin-top:12px; max-width:42ch;">Have a project in mind? Tell me a bit about it and I'll get back to you.</p>
+        <div class="contact-links">
+          <a href="mailto:maichealsameh83@gmail.com" class="contact-link"><span>Email</span><span class="arrow">↗</span></a>
+          <a href="https://www.linkedin.com/in/michael-sameh7" class="contact-link" target="_blank" rel="noopener"><span>LinkedIn</span><span class="arrow">↗</span></a>
+          <a href="https://github.com/Michael-Sameh" class="contact-link" target="_blank" rel="noopener"><span>GitHub</span><span class="arrow">↗</span></a>
+        </div>
+      </div>
+      <form id="contactForm">
+        <div>
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div>
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top:6px; justify-content:center;">Send message</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>Michael Sameh — Full-Stack .NET Developer</span>
+    <span>&copy; 2026. Built with ASP.NET Core in mind.</span>
+  </div>
+</footer>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+  themeToggle.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+  });
+
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    const subject = encodeURIComponent('Project inquiry from ' + name);
+    const body = encodeURIComponent(message + '\n\n— ' + name + ' (' + email + ')');
+    window.location.href = `mailto:your.email@example.com?subject=${subject}&body=${body}`;
+  });
+</script>
+
+</body>
+</html>
